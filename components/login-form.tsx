@@ -100,19 +100,6 @@ export function LoginForm() {
             </button>
           </form>
 
-          {/* 测试提示 */}
-          <div className="mt-6 pt-6 border-t border-gray-200">
-            <p className="text-xs text-gray-500 text-center mb-3">测试账户</p>
-            <div className="bg-blue-50 rounded-lg p-3 space-y-1 text-xs text-gray-600">
-              <p>
-                <span className="font-semibold">用户名:</span> admin
-              </p>
-              <p>
-                <span className="font-semibold">密码:</span> 123456
-              </p>
-            </div>
-          </div>
-        </div>
 
         {/* 底部文案 */}
         <p className="text-center text-gray-500 text-sm mt-6">核酸检测结果管理系统 © 2025</p>
