@@ -24,7 +24,7 @@
 - **UI 组件**: shadcn/ui
 
 ### 项目结构
-\`\`\`
+```
 ├── app/
 │   ├── login/              # 登录页面
 │   ├── dashboard/          # 仪表板（需要认证）
@@ -47,7 +47,7 @@
 │   └── nucleic-acid.ts     # TypeScript 类型定义
 └── scripts/
     └── create-nucleic-acid-table.sql  # 数据库初始化脚本
-\`\`\`
+```
 
 ---
 
@@ -94,7 +94,7 @@
 **请求参数**: 无
 
 **响应示例**:
-\`\`\`json
+```json
 {
   "success": true,
   "data": [
@@ -114,7 +114,7 @@
     }
   ]
 }
-\`\`\`
+```
 
 **状态码**:
 - `200`: 成功
@@ -127,7 +127,7 @@
 **端点**: `POST /api/nucleic-acid`
 
 **请求体**:
-\`\`\`json
+```json
 {
   "name": "李四",
   "id_number": "110101199103021234",
@@ -139,7 +139,7 @@
   "sample_type": "鼻拭子",
   "remarks": "备注信息"
 }
-\`\`\`
+```
 
 **字段说明**:
 - `name` (必填): 姓名，字符串，最长 255 字符
@@ -153,7 +153,7 @@
 - `remarks` (可选): 备注，文本类型
 
 **响应示例**:
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -163,7 +163,7 @@
     "created_at": "2024-12-10T11:00:00.000Z"
   }
 }
-\`\`\`
+```
 
 **状态码**:
 - `201`: 创建成功
@@ -180,18 +180,18 @@
 - `id` (URL 参数): 记录 ID，必填
 
 **请求体**:
-\`\`\`json
+```json
 {
   "name": "李四修改",
   "result": "阳性",
   "remarks": "更新的备注"
 }
-\`\`\`
+```
 
 **说明**: 只需传入要更新的字段，无需传入所有字段。
 
 **响应示例**:
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -201,7 +201,7 @@
     "updated_at": "2024-12-10T12:00:00.000Z"
   }
 }
-\`\`\`
+```
 
 **状态码**:
 - `200`: 更新成功
@@ -219,12 +219,12 @@
 - `id` (URL 参数): 记录 ID，必填
 
 **响应示例**:
-\`\`\`json
+```json
 {
   "success": true,
   "message": "记录已成功删除"
 }
-\`\`\`
+```
 
 **状态码**:
 - `200`: 删除成功
@@ -297,12 +297,12 @@
 
 在 `.env.local` 文件中配置以下环境变量：
 
-\`\`\`env
+```env
 # Supabase 配置
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 SUPABASE_SERVICE_ROLE_KEY=your_service_role_key
-\`\`\`
+```
 
 ### 初始化数据库
 
