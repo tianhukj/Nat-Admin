@@ -1,8 +1,6 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
 import { NucleicAcidForm } from "./nucleic-acid-form"
 import { NucleicAcidTable } from "./nucleic-acid-table"
 import type { NucleicAcidResult } from "@/types/nucleic-acid"
@@ -114,23 +112,23 @@ export function NucleicAcidPage() {
           <h1 className="text-4xl font-bold bg-gradient-to-r from-blue-600 to-cyan-600 dark:from-blue-400 dark:to-cyan-400 bg-clip-text text-transparent">
             核酸检测管理
           </h1>
-          <p className="text-muted-foreground">专业的检测结果录入和管理系统</p>
+          <p className="text-gray-600 dark:text-gray-400">专业的检测结果录入和管理系统</p>
         </div>
-        <Button
+        <button
           onClick={handleAddNew}
-          className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2 px-6 rounded-lg"
+          className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white shadow-lg hover:shadow-xl transition-all duration-200 flex items-center gap-2 px-6 py-2 rounded-lg font-medium"
         >
           <Plus size={20} />
           新增记录
-        </Button>
+        </button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-card border border-border rounded-lg p-5 shadow-sm hover:shadow-md transition-all duration-300">
+        <div className="bg-white dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-lg p-5 shadow-sm hover:shadow-md transition-all duration-300">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground font-medium">总检测数</p>
-              <p className="text-3xl font-bold text-foreground mt-2">{stats.total}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400 font-medium">总检测数</p>
+              <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">{stats.total}</p>
             </div>
             <div className="text-4xl">📊</div>
           </div>
@@ -165,30 +163,30 @@ export function NucleicAcidPage() {
       </div>
 
       <div className="relative">
-        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground">
+        <div className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 dark:text-gray-400">
           <Search size={20} />
         </div>
-        <Input
+        <input
           type="text"
           placeholder="搜索姓名或身份证号..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="pl-12 pr-4 py-3 bg-card border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:border-transparent transition-all"
+          className="w-full pl-12 pr-4 py-3 bg-white dark:bg-slate-900 border border-gray-200 dark:border-gray-700 text-gray-900 dark:text-white rounded-lg placeholder:text-gray-600 dark:placeholder:text-gray-400 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
         />
       </div>
 
       {isLoading ? (
-        <div className="flex items-center justify-center py-16 bg-card border border-border rounded-lg">
+        <div className="flex items-center justify-center py-16 bg-white dark:bg-slate-900 border border-gray-200 dark:border-gray-700 rounded-lg">
           <div className="text-center">
-            <div className="w-12 h-12 border-4 border-border border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
-            <div className="text-muted-foreground font-medium">加载中...</div>
+            <div className="w-12 h-12 border-4 border-gray-300 dark:border-gray-700 border-t-blue-500 rounded-full animate-spin mx-auto mb-4"></div>
+            <div className="text-gray-600 dark:text-gray-400 font-medium">加载中...</div>
           </div>
         </div>
       ) : (
         <>
           <div className="flex items-center justify-between px-2">
-            <p className="text-sm text-muted-foreground">
-              找到 <span className="font-semibold text-foreground">{filteredData.length}</span> 条记录
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              找到 <span className="font-semibold text-gray-900 dark:text-white">{filteredData.length}</span> 条记录
             </p>
           </div>
           <NucleicAcidTable data={filteredData} onEdit={handleEdit} onDelete={handleDelete} isLoading={isSubmitting} />
