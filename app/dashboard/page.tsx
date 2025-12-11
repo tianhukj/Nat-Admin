@@ -7,12 +7,13 @@ import { NucleicAcidPage } from "@/components/nucleic-acid-page"
 export default function DashboardPage() {
   const router = useRouter()
   const [username, setUsername] = useState("")
+  const [isChecking, setIsChecking] = useState(true)
 
   useEffect(() => {
     const isLoggedIn = sessionStorage.getItem("isLoggedIn")
     const storedUsername = sessionStorage.getItem("username")
 
-    if (!isLoggedIn) {
+    if (!isLoggedIn || isLoggedIn !== "true") {
       router.push("/login")
       return
     }
@@ -20,7 +21,17 @@ export default function DashboardPage() {
     if (storedUsername) {
       setUsername(storedUsername)
     }
+
+    setIsChecking(false)
   }, [router])
+
+  if (isChecking) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+      </div>
+    )
+  }
 
   const handleLogout = () => {
     sessionStorage.removeItem("isLoggedIn")
