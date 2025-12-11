@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import type { NucleicAcidResult } from "@/types/nucleic-acid"
 import { X } from "lucide-react"
+import { QRScanner } from "./qr-scanner"
 
 interface NucleicAcidFormProps {
   initialData?: NucleicAcidResult
@@ -30,6 +31,17 @@ export function NucleicAcidForm({ initialData, onSubmit, onClose, isLoading = fa
     remarks: initialData?.remarks || "",
   })
 
+  const handleQRScan = (qrData: { name?: string; idCard?: string; phone?: string }) => {
+    const today = new Date().toISOString().split("T")[0]
+    setFormData((prev) => ({
+      ...prev,
+      name: qrData.name || prev.name,
+      id_number: qrData.idCard || prev.id_number,
+      phone: qrData.phone || prev.phone,
+      test_date: prev.test_date || today,
+    }))
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     await onSubmit(formData)
@@ -49,6 +61,13 @@ export function NucleicAcidForm({ initialData, onSubmit, onClose, isLoading = fa
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          {!initialData && (
+            <div className="bg-blue-50 dark:bg-blue-950 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
+              <p className="text-sm text-blue-700 dark:text-blue-300 mb-3 font-medium">使用二维码快速填充信息</p>
+              <QRScanner onScan={handleQRScan} />
+            </div>
+          )}
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-semibold text-foreground mb-2">
