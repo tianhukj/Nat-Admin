@@ -160,14 +160,10 @@ export function QRScanner({ onScan }: QRScannerProps) {
 
       img.onload = async () => {
         console.log("[v0] Image loaded, size:", img.width, "x", img.height)
-        const canvas = canvasRef.current
-        if (!canvas) {
-          console.error("[v0] Canvas ref is null")
-          setScanMessage("✗ 系统错误，请重试")
-          return
-        }
 
-        const ctx = canvas.getContext("2d")
+        const tempCanvas = document.createElement("canvas")
+        const ctx = tempCanvas.getContext("2d")
+
         if (!ctx) {
           console.error("[v0] Canvas context not available")
           setScanMessage("✗ 系统错误，请重试")
@@ -175,11 +171,11 @@ export function QRScanner({ onScan }: QRScannerProps) {
         }
 
         try {
-          canvas.width = img.width
-          canvas.height = img.height
+          tempCanvas.width = img.width
+          tempCanvas.height = img.height
           ctx.drawImage(img, 0, 0)
 
-          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+          const imageData = ctx.getImageData(0, 0, tempCanvas.width, tempCanvas.height)
           console.log("[v0] Image data extracted, processing QR code...")
           const qrData = await decodeQRCode(imageData)
 
@@ -216,9 +212,7 @@ export function QRScanner({ onScan }: QRScannerProps) {
         setScanMessage("✗ 图片加载失败，请选择有效的图片文件")
       }
 
-      setTimeout(() => {
-        img.src = event.target?.result as string
-      }, 0)
+      img.src = event.target?.result as string
     }
 
     reader.onerror = () => {
