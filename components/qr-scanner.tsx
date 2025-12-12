@@ -162,49 +162,68 @@ export function QRScanner({ onScan }: QRScannerProps) {
         console.log("[v0] Image loaded, size:", img.width, "x", img.height)
         const canvas = canvasRef.current
         if (!canvas) {
-          console.error("[v0] Canvas not available")
+          console.error("[v0] Canvas ref is null")
+          setScanMessage("✗ 系统错误，请重试")
           return
         }
 
         const ctx = canvas.getContext("2d")
         if (!ctx) {
           console.error("[v0] Canvas context not available")
+          setScanMessage("✗ 系统错误，请重试")
           return
         }
 
-        canvas.width = img.width
-        canvas.height = img.height
-        ctx.drawImage(img, 0, 0)
+        try {
+          canvas.width = img.width
+          canvas.height = img.height
+          ctx.drawImage(img, 0, 0)
 
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
-        const qrData = await decodeQRCode(imageData)
+          const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+          console.log("[v0] Image data extracted, processing QR code...")
+          const qrData = await decodeQRCode(imageData)
 
-        if (qrData) {
-          console.log("[v0] QR found in image:", qrData)
-          try {
-            const data = JSON.parse(qrData)
-            console.log("[v0] Parsed image data:", data)
-            onScan({
-              name: data.name || "",
-              idCard: data.idCard || "",
-              phone: data.phone || "",
-            })
-            setScanMessage("✓ 解析成功！")
-          } catch (error) {
-            console.error("[v0] Parse error:", error)
-            setScanMessage("⚠ 二维码格式无效")
+          if (qrData) {
+            console.log("[v0] QR found in image:", qrData)
+            try {
+              const data = JSON.parse(qrData)
+              console.log("[v0] Parsed image data:", data)
+              onScan({
+                name: data.name || "",
+                idCard: data.idCard || "",
+                phone: data.phone || "",
+              })
+              setScanMessage("✓ 解析成功！")
+              if (fileInputRef.current) {
+                fileInputRef.current.value = ""
+              }
+            } catch (error) {
+              console.error("[v0] Parse error:", error)
+              setScanMessage("⚠ 二维码格式无效，请确保是正确的 JSON 格式")
+            }
+          } else {
+            console.log("[v0] No QR code detected in image")
+            setScanMessage("✗ 未检测到二维码，请上传包含二维码的图片")
           }
-        } else {
-          setScanMessage("✗ 未检测到二维码")
+        } catch (error) {
+          console.error("[v0] Canvas operation error:", error)
+          setScanMessage("✗ 图片处理失败")
         }
       }
 
       img.onerror = () => {
         console.error("[v0] Image load error")
-        setScanMessage("✗ 图片加载失败")
+        setScanMessage("✗ 图片加载失败，请选择有效的图片文件")
       }
 
-      img.src = event.target?.result as string
+      setTimeout(() => {
+        img.src = event.target?.result as string
+      }, 0)
+    }
+
+    reader.onerror = () => {
+      console.error("[v0] FileReader error")
+      setScanMessage("✗ 文件读取失败")
     }
 
     reader.readAsDataURL(file)
